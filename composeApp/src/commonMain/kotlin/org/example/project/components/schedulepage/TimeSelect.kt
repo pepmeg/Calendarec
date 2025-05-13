@@ -130,7 +130,7 @@ fun TimeInputField(
                 shape = RoundedCornerShape(15.dp),
                 suffix = {
                     Text(
-                        text = ".00",
+                        text = ":00",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = InterFontFamily(),
