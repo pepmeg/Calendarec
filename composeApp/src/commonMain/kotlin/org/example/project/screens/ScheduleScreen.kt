@@ -36,24 +36,6 @@ fun ScheduleScreen(navController: NavController, viewModel: SharedViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 24.dp)
-    ) {
-        IconButton(
-            onClick = {
-                navController.navigate("home")
-            },
-            modifier = Modifier.zIndex(1f),
-            content = {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "back"
-                )
-            }
-        )
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
     ) {
         Image(
             painter = painterResource(Res.drawable.bg_element),

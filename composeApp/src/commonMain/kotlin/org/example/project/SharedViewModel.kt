@@ -42,4 +42,5 @@ class SharedViewModel : ViewModel() {
     fun getTomorrowTasks(): List<Task> {
         return tasksState.value.allTasks.filter { it.isTomorrow() }
     }
+
 }

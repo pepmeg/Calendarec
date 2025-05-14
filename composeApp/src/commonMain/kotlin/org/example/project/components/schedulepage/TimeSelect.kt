@@ -56,7 +56,6 @@ fun TimeSelect(
                 .background(Color(0xFFF1F5F9), RoundedCornerShape(10.dp))
         ) {
             TimeInputField(
-                label = "From",
                 value = startHour,
                 onValueChange = onStartHourChanged,
                 modifier = Modifier.weight(1f)
@@ -69,7 +68,6 @@ fun TimeSelect(
             )
 
             TimeInputField(
-                label = "To",
                 value = endHour,
                 onValueChange = onEndHourChanged,
                 modifier = Modifier.weight(1f)
@@ -80,7 +78,6 @@ fun TimeSelect(
 
 @Composable
 fun TimeInputField(
-    label: String,
     value: Int?,
     onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -96,29 +93,6 @@ fun TimeInputField(
                     text = newText.take(2).filter { it.isDigit() }
                     text.toIntOrNull()?.takeIf { it in 0..23 }?.let(onValueChange)
                 },
-                label = {
-                    Text(
-                        text = label,
-                        fontWeight = FontWeight.Medium,
-                        fontFamily = InterFontFamily(),
-                        fontSize = 12.sp,
-                        letterSpacing = 0.3.sp
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.Gray.copy(alpha = 0.1f),
-                    unfocusedBorderColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    focusedBorderColor = Color(0xFFDE496E),
-                    focusedLabelColor = Color(0xFFDE496E),
-                    unfocusedLabelColor = Color(0xFF94A3B8),
-                    cursorColor = Color(0xFFDE496E),
-                    selectionColors = TextSelectionColors(
-                        handleColor = Color(0xFFDE496E),
-                        backgroundColor = Color(0xFFDE496E)
-                    )
-
-                ),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 textStyle = TextStyle(
@@ -128,15 +102,6 @@ fun TimeInputField(
                     letterSpacing = 0.3.sp
                 ),
                 shape = RoundedCornerShape(15.dp),
-                suffix = {
-                    Text(
-                        text = ":00",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = InterFontFamily(),
-                        letterSpacing = 0.3.sp
-                    )
-                }
             )
         }
 

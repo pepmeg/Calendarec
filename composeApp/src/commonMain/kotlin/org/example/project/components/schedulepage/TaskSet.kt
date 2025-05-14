@@ -77,7 +77,10 @@ fun TaskSet(
 
                     viewModel.addTask(task)
                     viewModel.showNotification(note)
-                    navController.navigate("home")
+                    navController.previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set(startHour.toString(), endHour.toString())
+                    navController.popBackStack()
                 }
             }
         )
