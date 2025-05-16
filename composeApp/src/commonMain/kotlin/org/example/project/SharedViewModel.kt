@@ -25,10 +25,6 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun saveName(newName: String) {
-        name.value = newName
-    }
-
     fun addTask(newTask: Task) {
         tasksState.update { current ->
             current.copy(allTasks = current.allTasks + newTask)
