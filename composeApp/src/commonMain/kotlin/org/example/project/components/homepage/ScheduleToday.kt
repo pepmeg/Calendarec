@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,11 +32,18 @@ import org.example.project.theme.InterFontFamily
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun ScheduleToday(viewModel: SharedViewModel) {
     val todayTasks = viewModel.getTodayTasks()
-    val hourHeight = 40.dp
     val scrollState = rememberScrollState()
 
     Box(
@@ -57,13 +66,18 @@ fun ScheduleToday(viewModel: SharedViewModel) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            val density = LocalDensity.current
+
             todayTasks.sortedBy {
                 it.time.substringBefore(":").toIntOrNull() ?: 0
-            }.forEach { task ->
+            }.forEachIndexed { index, task ->
 
                 val startHour = task.time.substringBefore(":").toIntOrNull() ?: 0
                 val endHour = (startHour + task.duration).coerceAtMost(24)
-                val taskHeight = (task.duration * hourHeight.value).dp - 8.dp
+
+                var measuredHeightPx by remember { mutableStateOf(0) }
+
+                val measuredHeightDp = with(density) { measuredHeightPx.toDp() }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -72,17 +86,17 @@ fun ScheduleToday(viewModel: SharedViewModel) {
                     Column(
                         verticalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
-                            .height(taskHeight)
+                            .height(measuredHeightDp)
                             .padding(end = 8.dp)
                     ) {
                         Text(
-                            text = "%02d.00".format(startHour),
+                            text = "%02d:00".format(startHour),
                             color = Color(0xFF64748B),
                             fontFamily = InterFontFamily(),
                             fontSize = 14.sp
                         )
                         Text(
-                            text = "%02d.00".format(endHour),
+                            text = "%02d:00".format(endHour),
                             color = Color(0xFF64748B),
                             fontFamily = InterFontFamily(),
                             fontSize = 14.sp
@@ -91,8 +105,10 @@ fun ScheduleToday(viewModel: SharedViewModel) {
 
                     Box(
                         modifier = Modifier
-                            .height(taskHeight)
                             .weight(1f)
+                            .onGloballyPositioned { coordinates ->
+                                measuredHeightPx = coordinates.size.height
+                            }
                     ) {
                         ScheduleItem(task = task)
                     }
@@ -109,9 +125,9 @@ fun ScheduleItem(task: Task) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height((task.duration * 40).dp - 8.dp)
+            .wrapContentHeight()
             .background(Color(0xFFDE496E), shape = RoundedCornerShape(16.dp))
-            .padding(12.dp)
+            .padding(6.dp)
     ) {
         Text(
             text = task.title,
@@ -122,6 +138,7 @@ fun ScheduleItem(task: Task) {
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(6.dp)
+                .padding(end = 36.dp)
         )
 
         Image(
