@@ -30,7 +30,7 @@ fun TaskSet(
     var startHour by remember { mutableStateOf<Int?>(null) }
     var endHour by remember { mutableStateOf<Int?>(null) }
     var note by remember { mutableStateOf("") }
-
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -53,7 +53,12 @@ fun TaskSet(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Category()
+        Category(
+            selectedCategory = selectedCategory,
+            onCategorySelected = { category ->
+                selectedCategory = category
+            }
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -62,16 +67,17 @@ fun TaskSet(
             note = note,
             onNoteChanged = { note = it },
             onSaveClicked = {
-                if (selectedDate != null && startHour != null && endHour != null && note.isNotBlank()) {
-                    val duration = (endHour!! - startHour!!).coerceAtLeast(1)
-                    val timeString = "%02d:00".format(startHour!!)
+                if (selectedDate != null && startHour != null && endHour != null && selectedCategory != null) {
+                    val startTime = "%02d:00".format(startHour!!)
+                    val endTime = "%02d:00".format(endHour!!)
                     val taskDate = selectedDate!!
 
                     val task = Task(
-                        title = note,
-                        time = timeString,
-                        duration = duration,
-                        date = taskDate
+                        title = selectedCategory!!,
+                        starttime = startTime,
+                        endtime = endTime,
+                        date = taskDate,
+                        note = note
                     )
 
 

@@ -40,7 +40,7 @@ fun Home(viewModel: SharedViewModel){
                 letterSpacing = (0.3).sp
             )
             Text(
-                text = name,
+                text = "Shuri",
                 fontWeight = FontWeight.Bold,
                 fontFamily = InterFontFamily(),
                 fontSize = 24.sp,

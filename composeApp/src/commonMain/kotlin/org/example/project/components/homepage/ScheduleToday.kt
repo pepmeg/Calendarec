@@ -39,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 
 @Composable
@@ -49,7 +50,7 @@ fun ScheduleToday(viewModel: SharedViewModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
+            .height(200.dp)
     ) {
         Column(
             modifier = Modifier
@@ -66,56 +67,60 @@ fun ScheduleToday(viewModel: SharedViewModel) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            val density = LocalDensity.current
+            if (todayTasks.isNotEmpty()){
+                val density = LocalDensity.current
+                todayTasks.sortedBy { task ->
+                    task.starttime.substringBefore(":").toIntOrNull() ?: 0
+                }.forEachIndexed { index, task ->
 
-            todayTasks.sortedBy {
-                it.time.substringBefore(":").toIntOrNull() ?: 0
-            }.forEachIndexed { index, task ->
+                    var measuredHeightPx by remember { mutableStateOf(0) }
 
-                val startHour = task.time.substringBefore(":").toIntOrNull() ?: 0
-                val endHour = (startHour + task.duration).coerceAtMost(24)
+                    val measuredHeightDp = with(density) { measuredHeightPx.toDp() }
 
-                var measuredHeightPx by remember { mutableStateOf(0) }
-
-                val measuredHeightDp = with(density) { measuredHeightPx.toDp() }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .height(measuredHeightDp)
-                            .padding(end = 8.dp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Top
                     ) {
-                        Text(
-                            text = "%02d:00".format(startHour),
-                            color = Color(0xFF64748B),
-                            fontFamily = InterFontFamily(),
-                            fontSize = 14.sp
-                        )
-                        Text(
-                            text = "%02d:00".format(endHour),
-                            color = Color(0xFF64748B),
-                            fontFamily = InterFontFamily(),
-                            fontSize = 14.sp
-                        )
+                        Column(
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .height(measuredHeightDp)
+                                .padding(end = 8.dp)
+                        ) {
+                            Text(
+                                text = task.starttime,
+                                color = Color(0xFF64748B),
+                                fontFamily = InterFontFamily(),
+                                fontSize = 14.sp
+                            )
+                            Text(
+                                text = task.endtime,
+                                color = Color(0xFF64748B),
+                                fontFamily = InterFontFamily(),
+                                fontSize = 14.sp
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .onGloballyPositioned { coordinates ->
+                                    measuredHeightPx = coordinates.size.height
+                                }
+                        ) {
+                            ScheduleItem(task = task)
+                        }
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .onGloballyPositioned { coordinates ->
-                                measuredHeightPx = coordinates.size.height
-                            }
-                    ) {
-                        ScheduleItem(task = task)
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
+            } else{
+                Text(
+                    text = "Nothing",
+                    modifier = Modifier.padding(top = 16.dp)
+                )
             }
+
         }
     }
 }
@@ -125,28 +130,39 @@ fun ScheduleItem(task: Task) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(Color(0xFFDE496E), shape = RoundedCornerShape(16.dp))
-            .padding(6.dp)
+            .padding(12.dp)
     ) {
-        Text(
-            text = task.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = InterFontFamily(),
+        Column(
             modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(6.dp)
+                .fillMaxWidth()
                 .padding(end = 36.dp)
-        )
+        ) {
+            Text(
+                text = task.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                fontFamily = InterFontFamily()
+            )
+
+            if (task.note.isNotBlank()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = task.note,
+                    fontSize = 12.sp,
+                    color = Color.White.copy(alpha = 0.8f),
+                    fontFamily = InterFontFamily()
+                )
+            }
+        }
 
         Image(
             painter = painterResource(Res.drawable.avatars_icon),
             contentDescription = "avatars",
             modifier = Modifier
                 .size(35.dp)
-                .align(Alignment.BottomEnd)
+                .align(Alignment.CenterEnd)
         )
     }
 }

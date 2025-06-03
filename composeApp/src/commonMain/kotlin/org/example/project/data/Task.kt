@@ -4,9 +4,10 @@ import java.time.LocalDate
 
 data class Task(
     val title: String,
-    val time: String,
-    val duration: Int,
-    val date: LocalDate
+    val starttime: String,
+    val endtime: String,
+    val date: LocalDate,
+    val note: String = ""
 ) {
     fun isToday(): Boolean = date == LocalDate.now()
 

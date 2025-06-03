@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinproject.composeapp.generated.resources.Res
@@ -39,7 +40,7 @@ fun RemindersScreen(viewModel: SharedViewModel) {
             )
         } else {
             Text(
-                text = "No reminders for tomorrow",
+                text = "Nothing",
                 modifier = Modifier.padding(top = 16.dp)
             )
         }
@@ -104,11 +105,18 @@ fun ReminderItem(task: Task) {
                 text = task.title,
                 fontSize = 14.sp,
                 fontFamily = InterFontFamily(),
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Text(
+                text = task.note,
+                fontSize = 13.sp,
+                fontFamily = InterFontFamily(),
                 fontWeight = FontWeight.Normal,
                 color = Color.White
             )
 
-            ReminderTime(time = "${task.time} - ${task.time.split(":").first().toInt() + task.duration}:00")
+            ReminderTime(time = "${task.starttime} - ${task.endtime}")
         }
     }
 }

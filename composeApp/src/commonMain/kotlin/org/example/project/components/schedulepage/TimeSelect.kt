@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,6 +54,7 @@ fun TimeSelect(
                 .background(Color(0xFFF1F5F9), RoundedCornerShape(10.dp))
         ) {
             TimeInputField(
+                placeholder = "From",
                 value = startHour,
                 onValueChange = onStartHourChanged,
                 modifier = Modifier.weight(1f)
@@ -68,6 +67,7 @@ fun TimeSelect(
             )
 
             TimeInputField(
+                placeholder = "To",
                 value = endHour,
                 onValueChange = onEndHourChanged,
                 modifier = Modifier.weight(1f)
@@ -78,6 +78,7 @@ fun TimeSelect(
 
 @Composable
 fun TimeInputField(
+    placeholder: String,
     value: Int?,
     onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -88,10 +89,18 @@ fun TimeInputField(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 22.dp)
         ) {
             OutlinedTextField(
+
                 value = text,
                 onValueChange = { newText ->
                     text = newText.take(2).filter { it.isDigit() }
                     text.toIntOrNull()?.takeIf { it in 0..23 }?.let(onValueChange)
+                },
+                placeholder =
+                {
+                    Text(
+                        text = placeholder,
+                        color = Color.Gray
+                    )
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

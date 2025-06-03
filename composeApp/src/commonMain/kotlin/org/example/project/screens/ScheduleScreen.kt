@@ -53,7 +53,6 @@ fun ScheduleScreen(navController: NavController, viewModel: SharedViewModel) {
             .padding(horizontal = 24.dp, vertical = 48.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(Modifier.height(20.dp))
         ScheduleTitle()
         Spacer(Modifier.height(20.dp))
         TaskSet(viewModel, navController)
