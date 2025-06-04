@@ -1,4 +1,4 @@
-package org.example.project.components.schedulepage
+package org.example.project.components.schedule
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

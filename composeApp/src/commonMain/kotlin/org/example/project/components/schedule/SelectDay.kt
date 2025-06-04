@@ -1,4 +1,4 @@
-package org.example.project.components.schedulepage
+package org.example.project.components.schedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.example.project.SharedViewModel
 import org.example.project.components.SetScheduleButton
-import org.example.project.components.homepage.Calendar
-import org.example.project.components.homepage.Home
-import org.example.project.components.homepage.RemindersScreen
-import org.example.project.components.homepage.ScheduleToday
+import org.example.project.components.home.Calendar
+import org.example.project.components.home.Home
+import org.example.project.components.home.RemindersScreen
+import org.example.project.components.home.ScheduleToday
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

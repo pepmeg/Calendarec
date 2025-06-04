@@ -1,4 +1,4 @@
-package org.example.project.components.schedulepage
+package org.example.project.components.schedule
 
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinproject.composeapp.generated.resources.Res
-import org.example.project.theme.InterFontFamily
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

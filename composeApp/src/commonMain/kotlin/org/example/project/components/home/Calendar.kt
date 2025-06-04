@@ -1,4 +1,4 @@
-package org.example.project.components.homepage
+package org.example.project.components.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
