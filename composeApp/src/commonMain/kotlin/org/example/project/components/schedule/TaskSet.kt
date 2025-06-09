@@ -65,7 +65,7 @@ fun TaskSet(
             note = note,
             onNoteChanged = { note = it },
             onSaveClicked = {
-                if (selectedDate != null && startHour != null && endHour != null && selectedCategory != null) {
+                if (selectedDate != null && startHour != null && endHour != null && note.isNotBlank() && startHour!! < endHour!!) {
                     val startTime = "%02d:00".format(startHour!!)
                     val endTime = "%02d:00".format(endHour!!)
                     val taskDate = selectedDate!!

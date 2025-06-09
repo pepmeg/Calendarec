@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -53,25 +54,57 @@ fun TimeSelect(
                 .padding(vertical = 10.dp)
                 .background(Color(0xFFF1F5F9), RoundedCornerShape(10.dp))
         ) {
-            TimeInputField(
-                placeholder = "From",
-                value = startHour,
-                onValueChange = onStartHourChanged,
+            Column(
                 modifier = Modifier.weight(1f)
-            )
+            ) {
+                TimeInputField(
+                    placeholder = "",
+                    value = startHour,
+                    onValueChange = onStartHourChanged,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = "From",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray,
+                    fontFamily = InterFontFamily(),
+                    modifier = Modifier.padding(start = 20.dp, bottom = 8.dp)
+                )
+            }
 
-            Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "ArrowRight",
-                modifier = Modifier.size(32.dp)
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(bottom = 12.dp)
+            ) {
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = "ArrowRight",
+                    modifier = Modifier.size(32.dp)
+                )
+            }
 
-            TimeInputField(
-                placeholder = "To",
-                value = endHour,
-                onValueChange = onEndHourChanged,
+            Column(
                 modifier = Modifier.weight(1f)
-            )
+            ) {
+                TimeInputField(
+                    placeholder = "",
+                    value = endHour,
+                    onValueChange = onEndHourChanged,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = "To",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray,
+                    fontFamily = InterFontFamily(),
+                    modifier = Modifier.padding(start = 20.dp, bottom = 8.dp)
+                )
+            }
         }
     }
 }

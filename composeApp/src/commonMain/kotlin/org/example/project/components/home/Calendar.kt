@@ -1,19 +1,12 @@
-package org.example.project.components.home
+package org.example.project.components.homepage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,14 +16,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.example.project.theme.InterFontFamily
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import java.time.LocalDate
 import java.time.format.TextStyle
-import java.util.Locale
+import java.util.*
 
 @Composable
-@Preview
-fun Calendar() {
+fun Calendar(
+    selectedDate: LocalDate,
+    onDateSelected: (LocalDate) -> Unit
+) {
     val today = LocalDate.now()
 
     Row(
@@ -42,17 +36,24 @@ fun Calendar() {
     ) {
         (-3..3).forEach { offset ->
             val date = today.plusDays(offset.toLong())
+            val isToday = date == today
+            val isSelected = date == selectedDate
+
+            val dayModifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .clickable { onDateSelected(date) }
+                .then(
+                    if (isSelected) Modifier
+                        .background(Color(0xFFFFF0F0))
+                        .padding(horizontal = 16.dp, vertical = 10.dp)
+                    else Modifier
+                )
+
             CalendarDay(
                 date = date,
-                isToday = offset == 0,
-                modifier = Modifier
-                    .then(
-                        if (offset == 0) Modifier
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(Color.Red.copy(alpha = 0.05f))
-                            .padding(top = 16.dp, bottom = 6.dp, start = 16.dp, end = 16.dp)
-                        else Modifier
-                    )
+                isToday = isToday,
+                isSelected = isSelected,
+                modifier = dayModifier
             )
         }
     }
@@ -62,45 +63,51 @@ fun Calendar() {
 fun CalendarDay(
     date: LocalDate,
     isToday: Boolean,
+    isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val isTodayAndNotSelected = isToday && !isSelected
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .width(50.dp)
+            .padding(vertical = 4.dp)
     ) {
         Text(
             text = date.dayOfMonth.toString(),
             fontSize = 18.sp,
             fontFamily = InterFontFamily(),
-            fontWeight = if (isToday) FontWeight.Bold else FontWeight.SemiBold,
-            color = if (isToday) Color.Red else Color(0xFF1E293B),
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
+            color = when {
+                isSelected -> Color(0xFFDE496E)
+                isTodayAndNotSelected -> Color(0xFF1E293B)
+                else -> Color(0xFF1E293B)
+            },
             textAlign = TextAlign.Center
         )
 
         Text(
-            text = date.dayOfWeek.getDisplayName(
-                TextStyle.SHORT,
-                Locale.ENGLISH
-            ).replace(".", ""),
+            text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).replace(".", ""),
             fontSize = 14.sp,
             fontFamily = InterFontFamily(),
-            color = if (isToday) Color.Red else Color.Gray,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
+            color = when {
+                isSelected -> Color(0xFFDE496E)
+                isTodayAndNotSelected -> Color.Gray
+                else -> Color.Gray
+            },
             textAlign = TextAlign.Center
         )
 
-        if (isToday) {
-            DotIndicator()
+        if (isSelected) {
+            Spacer(modifier = Modifier.height(6.dp))
+            Box(
+                modifier = Modifier
+                    .size(6.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFDE496E))
+            )
         }
     }
-}
-
-@Composable
-private fun DotIndicator() {
-    Spacer(modifier = Modifier.height(10.dp))
-    Box(
-        modifier = Modifier
-            .size(6.dp)
-            .clip(CircleShape)
-            .background(Color.Red)
-    )
 }

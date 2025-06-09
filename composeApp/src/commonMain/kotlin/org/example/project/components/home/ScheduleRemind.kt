@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,17 +27,22 @@ import org.example.project.SharedViewModel
 import org.example.project.data.Task
 import org.example.project.theme.InterFontFamily
 import org.jetbrains.compose.resources.painterResource
+import java.time.LocalDate
 
 @Composable
-fun RemindersScreen(viewModel: SharedViewModel) {
-    val tomorrowTasks = viewModel.getTomorrowTasks()
+fun RemindersScreen(viewModel: SharedViewModel, date: LocalDate) {
+    val tasks by remember(date, viewModel.tasksState) {
+        derivedStateOf {
+            viewModel.getTasksFor(date.plusDays(1))
+        }
+    }
 
     Column {
         TomorrowReminderHeader()
 
-        if (tomorrowTasks.isNotEmpty()) {
+        if (tasks.isNotEmpty()) {
             TomorrowReminderContent(
-                tasks = tomorrowTasks,
+                tasks = tasks,
                 modifier = Modifier.padding(top = 16.dp)
             )
         } else {
