@@ -57,28 +57,28 @@ fun TimeSelect(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                TimeInputField(
-                    placeholder = "",
-                    value = startHour,
-                    onValueChange = onStartHourChanged,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.size(4.dp))
+                Spacer(modifier = Modifier.size(10.dp))
                 Text(
                     text = "From",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Gray,
                     fontFamily = InterFontFamily(),
-                    modifier = Modifier.padding(start = 20.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                TimeInputField(
+                    placeholder = "",
+                    value = startHour,
+                    onValueChange = onStartHourChanged,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(bottom = 12.dp)
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.size(20.dp))
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "ArrowRight",
@@ -89,20 +89,21 @@ fun TimeSelect(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                TimeInputField(
-                    placeholder = "",
-                    value = endHour,
-                    onValueChange = onEndHourChanged,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.size(4.dp))
+                Spacer(modifier = Modifier.size(10.dp))
                 Text(
                     text = "To",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Gray,
                     fontFamily = InterFontFamily(),
-                    modifier = Modifier.padding(start = 20.dp, bottom = 8.dp)
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                TimeInputField(
+                    placeholder = "",
+                    value = endHour,
+                    onValueChange = onEndHourChanged,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
