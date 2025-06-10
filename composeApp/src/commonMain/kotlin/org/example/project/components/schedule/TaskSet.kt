@@ -65,7 +65,7 @@ fun TaskSet(
             note = note,
             onNoteChanged = { note = it },
             onSaveClicked = {
-                if (selectedDate != null && startHour != null && endHour != null && note.isNotBlank() && startHour!! < endHour!!) {
+                if (selectedDate != null && startHour != null && endHour != null && note.isNotBlank() && startHour!! < endHour!! && selectedCategory != null) {
                     val startTime = "%02d:00".format(startHour!!)
                     val endTime = "%02d:00".format(endHour!!)
                     val taskDate = selectedDate!!
@@ -77,7 +77,6 @@ fun TaskSet(
                         date = taskDate,
                         note = note
                     )
-
 
                     viewModel.addTask(task)
                     viewModel.showNotification(note)

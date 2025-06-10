@@ -36,7 +36,7 @@ fun HomeScreen(navController: NavController, viewModel: SharedViewModel) {
             .padding(horizontal = 24.dp, vertical = 48.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Home(viewModel)
+        Home()
         Calendar(
             selectedDate = selectedDate,
             onDateSelected = { newDate ->

@@ -123,7 +123,6 @@ fun TimeInputField(
             modifier = modifier.padding(horizontal = 16.dp, vertical = 22.dp)
         ) {
             OutlinedTextField(
-
                 value = text,
                 onValueChange = { newText ->
                     text = newText.take(2).filter { it.isDigit() }
@@ -147,5 +146,4 @@ fun TimeInputField(
                 shape = RoundedCornerShape(15.dp),
             )
         }
-
     }
